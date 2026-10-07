@@ -1,0 +1,1111 @@
+<sdf version='1.11'>
+  <model name='N1-Robot'>
+    <!-- Publish this model's movable joint positions on Gazebo Transport. -->
+    <plugin filename="gz-sim-joint-state-publisher-system"
+            name="gz::sim::systems::JointStatePublisher">
+    </plugin>
+    <!-- Four-wheel skid-steer drive, commanded through /cmd_vel. -->
+    <plugin filename="gz-sim-diff-drive-system"
+            name="gz::sim::systems::DiffDrive">
+      <left_joint>lwheel1_Joint</left_joint>
+      <left_joint>lwheel2_Joint</left_joint>
+      <right_joint>rwheel1_Joint</right_joint>
+      <right_joint>rwheel2_Joint</right_joint>
+      <wheel_separation>0.1955</wheel_separation>
+      <wheel_radius>0.04</wheel_radius>
+      <max_linear_velocity>0.3</max_linear_velocity>
+      <min_linear_velocity>-0.3</min_linear_velocity>
+      <max_angular_velocity>1.0</max_angular_velocity>
+      <min_angular_velocity>-1.0</min_angular_velocity>
+      <topic>/cmd_vel</topic>
+      <odom_topic>/odom</odom_topic>
+      <frame_id>odom</frame_id>
+      <child_frame_id>base_footprint</child_frame_id>
+      <odom_publish_frequency>30</odom_publish_frequency>
+      <tf_topic>/tf</tf_topic>
+    </plugin>
+    <!-- Arm position commands are expressed in radians on /armN/cmd_pos. -->
+    <plugin filename="gz-sim-joint-position-controller-system"
+            name="gz::sim::systems::JointPositionController">
+      <joint_name>arm1_Joint</joint_name>
+      <topic>/arm1/cmd_pos</topic>
+      <initial_position>0.0</initial_position>
+      <p_gain>10</p_gain>
+    </plugin>
+    <plugin filename="gz-sim-joint-position-controller-system"
+            name="gz::sim::systems::JointPositionController">
+      <joint_name>arm2_Joint</joint_name>
+      <topic>/arm2/cmd_pos</topic>
+      <initial_position>1.20</initial_position>
+      <p_gain>10</p_gain>
+    </plugin>
+    <plugin filename="gz-sim-joint-position-controller-system"
+            name="gz::sim::systems::JointPositionController">
+      <joint_name>arm3_Joint</joint_name>
+      <topic>/arm3/cmd_pos</topic>
+      <initial_position>-1.45</initial_position>
+      <p_gain>10</p_gain>
+    </plugin>
+    <plugin filename="gz-sim-joint-position-controller-system"
+            name="gz::sim::systems::JointPositionController">
+      <joint_name>arm4_Joiint</joint_name>
+      <topic>/arm4/cmd_pos</topic>
+      <initial_position>-1.32</initial_position>
+      <p_gain>10</p_gain>
+    </plugin>
+    <plugin filename="gz-sim-joint-position-controller-system"
+            name="gz::sim::systems::JointPositionController">
+      <joint_name>arm5_Joint</joint_name>
+      <topic>/arm5/cmd_pos</topic>
+      <initial_position>0.0</initial_position>
+      <p_gain>10</p_gain>
+    </plugin>
+    <!-- The ROS gripper command router sends signed targets to these joints. -->
+    <plugin filename="gz-sim-joint-position-controller-system"
+            name="gz::sim::systems::JointPositionController">
+      <joint_name>llink1_Joint</joint_name>
+      <topic>/gripper/llink1/cmd_pos</topic>
+      <initial_position>0</initial_position>
+      <p_gain>1</p_gain>
+      <d_gain>0.1</d_gain>
+      <use_velocity_commands>true</use_velocity_commands>
+    </plugin>
+    <plugin filename="gz-sim-joint-position-controller-system"
+            name="gz::sim::systems::JointPositionController">
+      <joint_name>llink2_Joint</joint_name>
+      <topic>/gripper/llink2/cmd_pos</topic>
+      <initial_position>0</initial_position>
+      <p_gain>1</p_gain>
+      <d_gain>0.1</d_gain>
+      <use_velocity_commands>true</use_velocity_commands>
+    </plugin>
+    <plugin filename="gz-sim-joint-position-controller-system"
+            name="gz::sim::systems::JointPositionController">
+      <joint_name>llink3_Joint</joint_name>
+      <topic>/gripper/llink3/cmd_pos</topic>
+      <initial_position>0</initial_position>
+      <p_gain>1</p_gain>
+      <d_gain>0.1</d_gain>
+      <use_velocity_commands>true</use_velocity_commands>
+    </plugin>
+    <plugin filename="gz-sim-joint-position-controller-system"
+            name="gz::sim::systems::JointPositionController">
+      <joint_name>rlink1_Joint</joint_name>
+      <topic>/gripper/rlink1/cmd_pos</topic>
+      <initial_position>0</initial_position>
+      <p_gain>1</p_gain>
+      <d_gain>0.1</d_gain>
+      <use_velocity_commands>true</use_velocity_commands>
+    </plugin>
+    <plugin filename="gz-sim-joint-position-controller-system"
+            name="gz::sim::systems::JointPositionController">
+      <joint_name>rlink2_Joint</joint_name>
+      <topic>/gripper/rlink2/cmd_pos</topic>
+      <initial_position>0</initial_position>
+      <p_gain>1</p_gain>
+      <d_gain>0.1</d_gain>
+      <use_velocity_commands>true</use_velocity_commands>
+    </plugin>
+    <plugin filename="gz-sim-joint-position-controller-system"
+            name="gz::sim::systems::JointPositionController">
+      <joint_name>rlink3_Joint</joint_name>
+      <topic>/gripper/rlink3/cmd_pos</topic>
+      <initial_position>0</initial_position>
+      <p_gain>1</p_gain>
+      <d_gain>0.1</d_gain>
+      <use_velocity_commands>true</use_velocity_commands>
+    </plugin>
+    <link name='base_footprint'>
+      <inertial>
+        <pose>-0.022569863674872539 -0.00061939735529507509 0.091591933685267191 0 0 0</pose>
+        <mass>0.87884333761088984</mass>
+        <inertia>
+          <ixx>0.00099582127671818139</ixx>
+          <ixy>1.5834890647131419e-06</ixy>
+          <ixz>-2.3036013315596168e-05</ixz>
+          <iyy>0.0010636605940590219</iyy>
+          <iyz>8.2318724292011845e-07</iyz>
+          <izz>0.0016998922242791839</izz>
+        </inertia>
+      </inertial>
+      <collision name='base_footprint_fixed_joint_lump__base_link_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <!-- The CAD mesh extends to the ground plane; let the wheels provide support. -->
+        <surface><contact><collide_bitmask>0x00</collide_bitmask></contact></surface>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/base_link.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='base_footprint_fixed_joint_lump__arm_base_Link_collision_1'>
+        <pose>0.033617000000000001 -1.0030999999999999e-05 0 6.3751000000000007e-05 0 0</pose>
+        <surface><contact><collide_bitmask>0x00</collide_bitmask></contact></surface>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/arm_base_Link.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='base_footprint_fixed_joint_lump__base_link_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/base_link.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.627451003 0.627451003 0.627451003 1</diffuse>
+          <ambient>0.627451003 0.627451003 0.627451003 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_footprint_fixed_joint_lump__arm_base_Link_visual_1'>
+        <pose>0.033617000000000001 -1.0030999999999999e-05 0 6.3751000000000007e-05 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/arm_base_Link.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0 0.784313738 0.294117659 1</diffuse>
+          <ambient>0 0.784313738 0.294117659 1</ambient>
+        </material>
+      </visual>
+      <sensor name='imu_sensor' type='imu'>
+        <pose>0.06 0 0.08 0 0 0</pose>
+        <always_on>true</always_on>
+        <update_rate>100</update_rate>
+        <visualize>true</visualize>
+        <topic>/imu</topic>
+      </sensor>
+    </link>
+    <joint name='Camera_Joint' type='revolute'>
+      <pose relative_to='base_footprint'>0.090915468877337896 0.00019827212036950699 0.093484211367505093 1.5707963267949003 0 0</pose>
+      <parent>base_footprint</parent>
+      <child>Camera</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+        <limit>
+          <lower>0</lower>
+          <upper>0</upper>
+          <effort>0</effort>
+          <velocity>0</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='Camera'>
+      <pose relative_to='Camera_Joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-0.0051599323429390304 0.017156285969214199 -5.0801721166751598e-05 0 0 0</pose>
+        <mass>0.053858318513728597</mass>
+        <inertia>
+          <ixx>3.0016674331433098e-05</ixx>
+          <ixy>1.2073058315824801e-07</ixy>
+          <ixz>-3.9005668966361201e-08</ixz>
+          <iyy>3.1013556280175097e-05</iyy>
+          <iyz>2.26188772216957e-09</iyz>
+          <izz>5.7833198999834498e-06</izz>
+        </inertia>
+      </inertial>
+      <collision name='Camera_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/Camera.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='Camera_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/Camera.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.627451003 0.627451003 0.627451003 1</diffuse>
+          <ambient>0.627451003 0.627451003 0.627451003 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='arm1_Joint' type='revolute'>
+      <pose relative_to='base_footprint'>0.033617000000000001 -1.2421e-05 0.185 6.3751000000000007e-05 -1.0587911840678754e-22 0.028395</pose>
+      <parent>base_footprint</parent>
+      <child>arm1</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5708</lower>
+          <upper>1.5708</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='arm1'>
+      <pose relative_to='arm1_Joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>2.1357674248524701e-05 -2.28857785706467e-05 0.0108850983929158 0 0 0</pose>
+        <mass>0.024438620362861301</mass>
+        <inertia>
+          <ixx>4.1307955595595703e-06</ixx>
+          <ixy>-1.7285215206315099e-08</ixy>
+          <ixz>-1.3953712664345299e-11</ixz>
+          <iyy>3.5240193396684898e-06</iyy>
+          <iyz>-4.2946263856180197e-15</iyz>
+          <izz>6.0448358122587796e-06</izz>
+        </inertia>
+      </inertial>
+      <collision name='arm1_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/arm1.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='arm1_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/arm1.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.970588267 0.946078479 0.921568632 1</diffuse>
+          <ambient>0.970588267 0.946078479 0.921568632 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='arm2_Joint' type='revolute'>
+      <pose relative_to='arm1'>-0.0021521999999999999 6.1185000000000005e-05 0.033000000000000002 -6.3725000000000004e-05 2.1175823681357508e-22 -0.028421999999999999</pose>
+      <parent>arm1</parent>
+      <child>arm2</child>
+      <axis>
+        <xyz>0 -1 -6.3725000000000004e-05</xyz>
+        <limit>
+          <lower>-1.5708</lower>
+          <upper>1.5708</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='arm2'>
+      <pose relative_to='arm2_Joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-0.00060202721773839501 -9.2755825148513999e-05 0.0264032863094033 0 0 0</pose>
+        <mass>0.061498670238648002</mass>
+        <inertia>
+          <ixx>2.10648493212753e-05</ixx>
+          <ixy>1.8388127627471401e-11</ixy>
+          <ixz>-1.39661642924236e-11</ixz>
+          <iyy>1.6422908171635201e-05</iyy>
+          <iyz>3.6029948657914097e-08</iyz>
+          <izz>9.72287810088419e-06</izz>
+        </inertia>
+      </inertial>
+      <collision name='arm2_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/arm2.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='arm2_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/arm2.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='arm3_Joint' type='revolute'>
+      <pose relative_to='arm2'>0 0 0.082849999999999993 6.3702000000000021e-05 -2.1175823681357508e-22 0.027102000000000001</pose>
+      <parent>arm2</parent>
+      <child>arm3</child>
+      <axis>
+        <xyz>-0.027098000000000001 -0.99963000000000002 0</xyz>
+        <limit>
+          <lower>-1.5708</lower>
+          <upper>1.5708</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='arm3'>
+      <pose relative_to='arm3_Joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-0.00060437397304517401 -7.4616172847150403e-05 0.0258332880744843 0 0 0</pose>
+        <mass>0.061498670238133102</mass>
+        <inertia>
+          <ixx>2.1061422762455899e-05</ixx>
+          <ixy>-1.2572378834838001e-07</ixy>
+          <ixz>9.5045873530417798e-10</ixz>
+          <iyy>1.64263399723813e-05</iyy>
+          <iyz>3.5590035384079299e-08</iyz>
+          <izz>9.72287285883381e-06</izz>
+        </inertia>
+      </inertial>
+      <collision name='arm3_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/arm3.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='arm3_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/arm3.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='arm4_Joiint' type='revolute'>
+      <pose relative_to='arm3'>0 0 0.082849999999999993 0 0 -0.027075000000000002</pose>
+      <parent>arm3</parent>
+      <child>arm4</child>
+      <axis>
+        <xyz>-2.6392000000000001e-05 -1 0</xyz>
+        <limit>
+          <lower>-1.5708</lower>
+          <upper>1.5708</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='arm4'>
+      <pose relative_to='arm4_Joiint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-0.016381901112144371 0.00046053697004067658 0.045032671386010012 0 0 0</pose>
+        <mass>0.12958354561852969</mass>
+        <inertia>
+          <ixx>8.3245489556159195e-05</ixx>
+          <ixy>2.0088438176423641e-06</ixy>
+          <ixz>5.1619843520940347e-05</ixz>
+          <iyy>0.00013619392716282761</iyy>
+          <iyz>-8.9979355448176393e-07</iyz>
+          <izz>0.00011752514911402591</izz>
+        </inertia>
+      </inertial>
+      <collision name='arm4_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/arm4.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='arm4_fixed_joint_lump__DCW2_collision_1'>
+        <pose>-0.048388332354281603 0.0024518009751024099 0.067190000030638103 0.02839560564226435 -1.5707963267948966 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/DCW2.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='arm4_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/arm4.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='arm4_fixed_joint_lump__DCW2_visual_1'>
+        <pose>-0.048388332354281603 0.0024518009751024099 0.067190000030638103 0.02839560564226435 -1.5707963267948966 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/DCW2.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.254901975 0.254901975 0.254901975 1</diffuse>
+          <ambient>0.254901975 0.254901975 0.254901975 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='arm5_Joint' type='revolute'>
+      <pose relative_to='arm4'>0.00057304999999999997 0 0.074815000000000006 0 0 0</pose>
+      <parent>arm4</parent>
+      <child>arm5</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1.5708</lower>
+          <upper>1.5708</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='arm5'>
+      <pose relative_to='arm5_Joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.01454398901878818 -0.0022618794666060022 0.026856638869506681 0 0 0</pose>
+        <mass>0.053298092532059513</mass>
+        <inertia>
+          <ixx>9.4319107001968459e-06</ixx>
+          <ixy>1.3385317212898291e-07</ixy>
+          <ixz>2.20414042485357e-07</ixz>
+          <iyy>6.4008313786089683e-06</iyy>
+          <iyz>1.204086509954073e-08</iyz>
+          <izz>1.0571842066311651e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name='arm5_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/arm5.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <collision name='arm5_fixed_joint_lump__Gripping_collision_1'>
+        <pose>-0.00062498999999999996 0.00023986999999999999 0.093234999999999998 -2.8847062856519489e-05 -1.5707963267948966 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/Gripping.STL</uri>
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name='arm5_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/arm5.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.254901975 0.254901975 0.254901975 1</diffuse>
+          <ambient>0.254901975 0.254901975 0.254901975 1</ambient>
+        </material>
+      </visual>
+      <visual name='arm5_fixed_joint_lump__Gripping_visual_1'>
+        <pose>-0.00062498999999999996 0.00023986999999999999 0.093234999999999998 -2.8847062856519489e-05 -1.5707963267948966 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/Gripping.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='llink1_Joint' type='revolute'>
+      <pose relative_to='arm5'>-0.0044996999999999997 0.012375000000000001 0.029274999999999999 -1.5708000000000002 -0.60317999999999994 1.5708</pose>
+      <parent>arm5</parent>
+      <child>llink1</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-inf</lower>
+          <upper>inf</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='llink1'>
+      <pose relative_to='llink1_Joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.0088460268510082204 -0.00034181327214610801 -0.00016945594279957999 0 0 0</pose>
+        <mass>0.0042670056486188096</mass>
+        <inertia>
+          <ixx>8.8433600113526305e-08</ixx>
+          <ixy>-1.30950315021427e-08</ixy>
+          <ixz>2.18756702456485e-14</ixz>
+          <iyy>4.5551189653777802e-07</iyy>
+          <iyz>1.2193651328645001e-14</iyz>
+          <izz>5.3666521526890904e-07</izz>
+        </inertia>
+      </inertial>
+      <collision name='llink1_collision'>
+        <surface><contact><collide_bitmask>0x01</collide_bitmask></contact></surface>
+        <pose>0.015 0 0 0 0 0</pose>
+        <geometry>
+          <box><size>0.030 0.007 0.007</size></box>
+        </geometry>
+      </collision>
+      <visual name='llink1_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/llink1.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='llink2_Joint' type='revolute'>
+      <pose relative_to='llink1'>0.029999999999999999 0 0.00125 0 0 -0.96762000000000004</pose>
+      <parent>llink1</parent>
+      <child>llink2</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-inf</lower>
+          <upper>inf</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='llink2'>
+      <pose relative_to='llink2_Joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.0226281369502883 -0.0059271230952971099 -0.0052500000000039798 0 0 0</pose>
+        <mass>0.0061448729710298997</mass>
+        <inertia>
+          <ixx>8.2172504254968396e-08</ixx>
+          <ixy>2.27196496174757e-07</ixy>
+          <ixz>-9.0829521896072996e-21</ixz>
+          <iyy>1.5030605330855299e-06</iyy>
+          <iyz>1.34351902937085e-21</iyz>
+          <izz>1.57601572788395e-06</izz>
+        </inertia>
+      </inertial>
+      <collision name='llink2_collision'>
+        <surface><contact><collide_bitmask>0x02</collide_bitmask></contact></surface>
+        <pose>0.015 0 0 0 0 0</pose>
+        <geometry>
+          <box><size>0.030 0.007 0.007</size></box>
+        </geometry>
+      </collision>
+      <visual name='llink2_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/llink2.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='llink3_Joint' type='revolute'>
+      <pose relative_to='arm5'>-0.0044999000000000003 0.0045000999999999999 0.047274999999999998 -1.5707999999999998 -0.61516000000000015 1.5707999999999998</pose>
+      <parent>arm5</parent>
+      <child>llink3</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-inf</lower>
+          <upper>inf</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='llink3'>
+      <pose relative_to='llink3_Joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.0147913116377242 -8.4932061383824507e-15 -0.00271410065781674 0 0 0</pose>
+        <mass>0.0027097183166501699</mass>
+        <inertia>
+          <ixx>9.1847495753322901e-09</ixx>
+          <ixy>-1.9955566841719299e-19</ixy>
+          <ixz>4.3004346458073801e-20</ixz>
+          <iyy>1.63607734896731e-07</iyy>
+          <iyz>1.5019648698602e-20</iyz>
+          <izz>1.6325483371314101e-07</izz>
+        </inertia>
+      </inertial>
+      <collision name='llink3_collision'>
+        <surface><contact><collide_bitmask>0x04</collide_bitmask></contact></surface>
+        <pose>0.010 0 0 0 0 0</pose>
+        <geometry>
+          <box><size>0.020 0.007 0.007</size></box>
+        </geometry>
+      </collision>
+      <visual name='llink3_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/llink3.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='rlink1_Joint' type='revolute'>
+      <pose relative_to='arm5'>-0.0047502999999999998 -0.012625000000000001 0.029274999999999999 1.5707999999999998 -0.60409000000000024 -1.5708</pose>
+      <parent>arm5</parent>
+      <child>rlink1</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+        <limit>
+          <lower>-0.94999999999999996</lower>
+          <upper>0</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='rlink1'>
+      <pose relative_to='rlink1_Joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.0080892542202507505 0.00035529744336693097 -0.00046463643105091099 0 0 0</pose>
+        <mass>0.00469661998528202</mass>
+        <inertia>
+          <ixx>1.02155544192725e-07</ixx>
+          <ixy>1.52484505407808e-08</ixy>
+          <ixz>-5.4687641234799899e-14</ixz>
+          <iyy>4.5297083176365098e-07</iyy>
+          <iyz>2.1724734504274399e-13</iyz>
+          <izz>5.4554478655363497e-07</izz>
+        </inertia>
+      </inertial>
+      <collision name='rlink1_collision'>
+        <surface><contact><collide_bitmask>0x08</collide_bitmask></contact></surface>
+        <pose>0.015 0 0 0 0 0</pose>
+        <geometry>
+          <box><size>0.030 0.007 0.007</size></box>
+        </geometry>
+      </collision>
+      <visual name='rlink1_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/rlink1.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='rlink2_Joint' type='revolute'>
+      <pose relative_to='rlink1'>0.029999999999999999 0 0.001 0 0 0.96669999999999989</pose>
+      <parent>rlink1</parent>
+      <child>rlink2</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-inf</lower>
+          <upper>inf</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='rlink2'>
+      <pose relative_to='rlink2_Joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.022565119167361699 0.0061626915390340896 -0.0050000000000041999 0 0 0</pose>
+        <mass>0.0061448729710298997</mass>
+        <inertia>
+          <ixx>8.7063549641212606e-08</ixx>
+          <ixy>-2.4195857783285198e-07</ixy>
+          <ixz>-4.8276318615698898e-21</ixz>
+          <iyy>1.49816948769928e-06</iyy>
+          <iyz>-8.0609073810719297e-22</iyz>
+          <izz>1.57601572788395e-06</izz>
+        </inertia>
+      </inertial>
+      <collision name='rlink2_collision'>
+        <surface><contact><collide_bitmask>0x10</collide_bitmask></contact></surface>
+        <pose>0.015 0 0 0 0 0</pose>
+        <geometry>
+          <box><size>0.030 0.007 0.007</size></box>
+        </geometry>
+      </collision>
+      <visual name='rlink2_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/rlink2.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='rlink3_Joint' type='revolute'>
+      <pose relative_to='arm5'>-0.0045000999999999999 -0.0044999000000000003 0.047274999999999998 1.5708 -0.61260999999999999 -1.5708</pose>
+      <parent>arm5</parent>
+      <child>rlink3</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-inf</lower>
+          <upper>inf</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='rlink3'>
+      <pose relative_to='rlink3_Joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.014791311637782601 -6.0095434739615403e-09 -0.0027141006578101298 0 0 0</pose>
+        <mass>0.0027097183166501699</mass>
+        <inertia>
+          <ixx>9.1847495710939903e-09</ixx>
+          <ixy>-3.0159671014076502e-18</ixy>
+          <ixz>-2.7533133494131699e-20</ixz>
+          <iyy>1.6360773490096701e-07</iyy>
+          <iyz>-7.81375037841199e-16</iyz>
+          <izz>1.6325483371314199e-07</izz>
+        </inertia>
+      </inertial>
+      <collision name='rlink3_collision'>
+        <surface><contact><collide_bitmask>0x20</collide_bitmask></contact></surface>
+        <pose>0.010 0 0 0 0 0</pose>
+        <geometry>
+          <box><size>0.020 0.007 0.007</size></box>
+        </geometry>
+      </collision>
+      <visual name='rlink3_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/rlink3.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='lwheel1_Joint' type='revolute'>
+      <pose relative_to='base_footprint'>0.077575378797540895 0.097750000000000004 0.0399999999999998 1.5707963267949003 0 0</pose>
+      <parent>base_footprint</parent>
+      <child>lwheel1</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+        <limit>
+          <lower>-1e16</lower>
+          <upper>1e16</upper>
+          <effort>10</effort>
+          <velocity>20</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='lwheel1'>
+      <pose relative_to='lwheel1_Joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-2.0540109582495299e-06 1.7379895593389001e-06 0.0108532997143464 0 0 0</pose>
+        <mass>0.097313719482063396</mass>
+        <inertia>
+          <ixx>4.4524583220076999e-05</ixx>
+          <ixy>-1.31175451437957e-10</ixy>
+          <ixz>2.4691417638338998e-09</ixz>
+          <iyy>4.4524137038748699e-05</iyy>
+          <iyz>-4.9776391261432003e-10</iyz>
+          <izz>7.4596344398060894e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name='lwheel1_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <cylinder><radius>0.04</radius><length>0.02</length></cylinder>
+        </geometry>
+        <surface><friction><ode><mu>10</mu><mu2>10</mu2></ode></friction></surface>
+      </collision>
+      <visual name='lwheel1_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/lwheel1.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.372549027 0.372549027 0.372549027 1</diffuse>
+          <ambient>0.372549027 0.372549027 0.372549027 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='lwheel2_Joint' type='revolute'>
+      <pose relative_to='base_footprint'>-0.081424621202459704 0.097749999999999504 0.039997695154586697 1.5707963267949003 0 0</pose>
+      <parent>base_footprint</parent>
+      <child>lwheel2</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+        <limit>
+          <lower>-1e16</lower>
+          <upper>1e16</upper>
+          <effort>10</effort>
+          <velocity>20</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='lwheel2'>
+      <pose relative_to='lwheel2_Joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>2.4286137066953398e-06 -1.02166504497431e-06 0.0108534142995862 0 0 0</pose>
+        <mass>0.097312231639867797</mass>
+        <inertia>
+          <ixx>4.4523980038960603e-05</ixx>
+          <ixy>5.4490558607280901e-10</ixy>
+          <ixz>-1.6543810529492101e-09</ixz>
+          <iyy>4.4523414197166e-05</iyy>
+          <iyz>1.9445647847834601e-09</iyz>
+          <izz>7.4595687948921503e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name='lwheel2_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <cylinder><radius>0.04</radius><length>0.02</length></cylinder>
+        </geometry>
+        <surface><friction><ode><mu>10</mu><mu2>10</mu2></ode></friction></surface>
+      </collision>
+      <visual name='lwheel2_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/lwheel2.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.372549027 0.372549027 0.372549027 1</diffuse>
+          <ambient>0.372549027 0.372549027 0.372549027 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='rwheel1_Joint' type='revolute'>
+      <pose relative_to='base_footprint'>0.077575378797542893 -0.097749999999999296 0.040000000000000403 -1.5707963267949003 0 0</pose>
+      <parent>base_footprint</parent>
+      <child>rwheel1</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e16</lower>
+          <upper>1e16</upper>
+          <effort>10</effort>
+          <velocity>20</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='rwheel1'>
+      <pose relative_to='rwheel1_Joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>2.6239015439577502e-07 -2.6217034275952101e-06 0.010853419234052499 0 0 0</pose>
+        <mass>0.097312045386156107</mass>
+        <inertia>
+          <ixx>4.4523886771788399e-05</ixx>
+          <ixy>-5.0598692752255405e-10</ixy>
+          <ixz>1.0621208678826999e-09</ixz>
+          <iyy>4.4523369316938597e-05</iyy>
+          <iyz>2.3077485783486699e-09</iyz>
+          <izz>7.4595572295058904e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name='rwheel1_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <cylinder><radius>0.04</radius><length>0.02</length></cylinder>
+        </geometry>
+        <surface><friction><ode><mu>10</mu><mu2>10</mu2></ode></friction></surface>
+      </collision>
+      <visual name='rwheel1_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/rwheel1.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.372549027 0.372549027 0.372549027 1</diffuse>
+          <ambient>0.372549027 0.372549027 0.372549027 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='rwheel2_Joint' type='revolute'>
+      <pose relative_to='base_footprint'>-0.081424621202457706 -0.097750000000000906 0.039997695154587301 -1.5707963267949003 0 0</pose>
+      <parent>base_footprint</parent>
+      <child>rwheel2</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-1e16</lower>
+          <upper>1e16</upper>
+          <effort>10</effort>
+          <velocity>20</velocity>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='rwheel2'>
+      <pose relative_to='rwheel2_Joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>-2.6913354038427001e-06 -2.9775569734824499e-07 0.010853305631203699 0 0 0</pose>
+        <mass>0.097313675800621002</mass>
+        <inertia>
+          <ixx>4.4524453695162002e-05</ixx>
+          <ixy>2.2715730620874001e-10</ixy>
+          <ixz>2.0583440508544902e-09</ixz>
+          <iyy>4.4524249332316901e-05</iyy>
+          <iyz>1.44511222079578e-09</iyz>
+          <izz>7.4596326819270203e-05</izz>
+        </inertia>
+      </inertial>
+      <collision name='rwheel2_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <cylinder><radius>0.04</radius><length>0.02</length></cylinder>
+        </geometry>
+        <surface><friction><ode><mu>10</mu><mu2>10</mu2></ode></friction></surface>
+      </collision>
+      <visual name='rwheel2_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://robot_description/meshes/rwheel2.STL</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>0.372549027 0.372549027 0.372549027 1</diffuse>
+          <ambient>0.372549027 0.372549027 0.372549027 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <frame name='arm_base_Joint' attached_to='base_link'>
+      <pose>0.033617000000000001 -1.0030999999999999e-05 0 6.3751000000000007e-05 0 0</pose>
+    </frame>
+    <frame name='arm_base_Link' attached_to='arm_base_Joint'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='imu_frame_joint' attached_to='base_link'>
+      <pose>0.059999999999999998 0 0.080000000000000002 0 0 0</pose>
+    </frame>
+    <frame name='imu_frame' attached_to='imu_frame_joint'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='base_footprint_joint' attached_to='base_footprint'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='base_link' attached_to='base_footprint_joint'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='DCW2_Joint' attached_to='arm4'>
+      <pose>-0.048388332354281603 0.0024518009751024099 0.067190000030638103 0.028395591289240123 -1.5707963267948966 0</pose>
+    </frame>
+    <frame name='DCW2' attached_to='DCW2_Joint'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+    <frame name='Gripping_Joint' attached_to='arm5'>
+      <pose>-0.00062498999999999996 0.00023986999999999999 0.093234999999999998 3.0999446535862569 -1.5707926536964443 -3.0999736535860074</pose>
+    </frame>
+    <frame name='Gripping' attached_to='Gripping_Joint'>
+      <pose>0 0 0 0 0 0</pose>
+    </frame>
+  </model>
+</sdf>
