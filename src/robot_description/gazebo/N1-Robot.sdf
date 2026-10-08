@@ -48,7 +48,7 @@
     </plugin>
     <plugin filename="gz-sim-joint-position-controller-system"
             name="gz::sim::systems::JointPositionController">
-      <joint_name>arm4_Joiint</joint_name>
+      <joint_name>arm4_Joint</joint_name>
       <topic>/arm4/cmd_pos</topic>
       <initial_position>-1.32</initial_position>
       <p_gain>10</p_gain>
@@ -183,23 +183,10 @@
         <topic>/imu</topic>
       </sensor>
     </link>
-    <joint name='Camera_Joint' type='revolute'>
+    <joint name='Camera_Joint' type='fixed'>
       <pose relative_to='base_footprint'>0.090915468877337896 0.00019827212036950699 0.093484211367505093 1.5707963267949003 0 0</pose>
       <parent>base_footprint</parent>
       <child>Camera</child>
-      <axis>
-        <xyz>0 0 -1</xyz>
-        <limit>
-          <lower>0</lower>
-          <upper>0</upper>
-          <effort>0</effort>
-          <velocity>0</velocity>
-        </limit>
-        <dynamics>
-          <spring_reference>0</spring_reference>
-          <spring_stiffness>0</spring_stiffness>
-        </dynamics>
-      </axis>
     </joint>
     <link name='Camera'>
       <pose relative_to='Camera_Joint'>0 0 0 0 0 0</pose>
@@ -403,7 +390,7 @@
         </material>
       </visual>
     </link>
-    <joint name='arm4_Joiint' type='revolute'>
+    <joint name='arm4_Joint' type='revolute'>
       <pose relative_to='arm3'>0 0 0.082849999999999993 0 0 -0.027075000000000002</pose>
       <parent>arm3</parent>
       <child>arm4</child>
@@ -422,7 +409,7 @@
       </axis>
     </joint>
     <link name='arm4'>
-      <pose relative_to='arm4_Joiint'>0 0 0 0 0 0</pose>
+      <pose relative_to='arm4_Joint'>0 0 0 0 0 0</pose>
       <inertial>
         <pose>-0.016381901112144371 0.00046053697004067658 0.045032671386010012 0 0 0</pose>
         <mass>0.12958354561852969</mass>
@@ -479,6 +466,28 @@
           <ambient>0.254901975 0.254901975 0.254901975 1</ambient>
         </material>
       </visual>
+      <!-- RGB-D sensor mounted on the DCW2 frame fixed to arm4. -->
+      <sensor name='dcw_rgbd_camera' type='rgbd_camera'>
+        <!-- Tune this pose if the DCW2 CAD frame is not at the lens centre. -->
+        <pose relative_to='DCW2'>0 0 0 0 0 0</pose>
+        <always_on>true</always_on>
+        <update_rate>30</update_rate>
+        <visualize>true</visualize>
+        <topic>/dcw/rgbd</topic>
+        <camera>
+          <optical_frame_id>dcw_depth_optical_frame</optical_frame_id>
+          <horizontal_fov>1.047</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.10</near>
+            <far>5.0</far>
+          </clip>
+        </camera>
+      </sensor>
     </link>
     <joint name='arm5_Joint' type='revolute'>
       <pose relative_to='arm4'>0.00057304999999999997 0 0.074815000000000006 0 0 0</pose>
@@ -564,8 +573,10 @@
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
-          <lower>-inf</lower>
-          <upper>inf</upper>
+          <lower>-0.95</lower>
+          <upper>0.95</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
         </limit>
         <dynamics>
           <spring_reference>0</spring_reference>
@@ -615,8 +626,10 @@
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
-          <lower>-inf</lower>
-          <upper>inf</upper>
+          <lower>-0.95</lower>
+          <upper>0.95</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
         </limit>
         <dynamics>
           <spring_reference>0</spring_reference>
@@ -666,8 +679,10 @@
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
-          <lower>-inf</lower>
-          <upper>inf</upper>
+          <lower>-0.95</lower>
+          <upper>0.95</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
         </limit>
         <dynamics>
           <spring_reference>0</spring_reference>
@@ -717,8 +732,8 @@
       <axis>
         <xyz>0 0 -1</xyz>
         <limit>
-          <lower>-0.94999999999999996</lower>
-          <upper>0</upper>
+          <lower>-0.95</lower>
+          <upper>0.95</upper>
           <effort>100</effort>
           <velocity>1</velocity>
         </limit>
@@ -770,8 +785,10 @@
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
-          <lower>-inf</lower>
-          <upper>inf</upper>
+          <lower>-0.95</lower>
+          <upper>0.95</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
         </limit>
         <dynamics>
           <spring_reference>0</spring_reference>
@@ -821,8 +838,10 @@
       <axis>
         <xyz>0 0 1</xyz>
         <limit>
-          <lower>-inf</lower>
-          <upper>inf</upper>
+          <lower>-0.95</lower>
+          <upper>0.95</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
         </limit>
         <dynamics>
           <spring_reference>0</spring_reference>

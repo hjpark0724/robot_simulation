@@ -26,8 +26,11 @@ def generate_launch_description():
             'on_exit_shutdown': 'true',
         }.items())
 
+    # Gazebo needs time to start rendering (ogre2) and load the meshes before
+    # it can accept a spawn request. This fixed delay is a pragmatic margin,
+    # not a guaranteed sync point; raise it further on slower machines.
     spawn_robot = TimerAction(
-        period=3.0,
+        period=5.0,
         actions=[
             Node(
                 package='ros_gz_sim',
@@ -57,6 +60,10 @@ def generate_launch_description():
             executable='parameter_bridge',
             arguments=[
                 '/imu@sensor_msgs/msg/Imu[gz.msgs.IMU',
+                '/dcw/rgbd/image@sensor_msgs/msg/Image[gz.msgs.Image',
+                '/dcw/rgbd/depth_image@sensor_msgs/msg/Image[gz.msgs.Image',
+                '/dcw/rgbd/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
+                '/dcw/rgbd/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
                 '/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
                 '/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry',
                 f'{joint_state_gz_topic}@sensor_msgs/msg/JointState[gz.msgs.Model',
@@ -74,6 +81,11 @@ def generate_launch_description():
             ],
             remappings=[
                 (joint_state_gz_topic, '/joint_states'),
+                ('/dcw/rgbd/points', '/dcw/rgbd/points_raw'),
+                # The bridged topic keeps Gazebo's scoped sensor name as
+                # header.frame_id; imu_frame_relay.py republishes it on
+                # /imu with the URDF's imu_frame name instead.
+                ('/imu', '/imu/raw'),
             ],
             output='screen'),
         Node(
@@ -90,7 +102,16 @@ def generate_launch_description():
             output='screen'),
         Node(
             package='robot_description',
+            executable='imu_frame_relay.py',
+            output='screen'),
+        Node(
+            package='robot_description',
             executable='odom_tf_broadcaster.py',
+            parameters=[{'use_sim_time': True}],
+            output='screen'),
+        Node(
+            package='robot_description',
+            executable='gz_pointcloud_to_optical.py',
             parameters=[{'use_sim_time': True}],
             output='screen'),
         Node(
