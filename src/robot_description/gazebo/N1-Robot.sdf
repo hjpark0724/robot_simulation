@@ -31,6 +31,7 @@
       <topic>/arm1/cmd_pos</topic>
       <initial_position>0.0</initial_position>
       <p_gain>10</p_gain>
+      <d_gain>1.0</d_gain>
     </plugin>
     <plugin filename="gz-sim-joint-position-controller-system"
             name="gz::sim::systems::JointPositionController">
@@ -38,6 +39,7 @@
       <topic>/arm2/cmd_pos</topic>
       <initial_position>1.20</initial_position>
       <p_gain>10</p_gain>
+      <d_gain>1.0</d_gain>
     </plugin>
     <plugin filename="gz-sim-joint-position-controller-system"
             name="gz::sim::systems::JointPositionController">
@@ -45,6 +47,7 @@
       <topic>/arm3/cmd_pos</topic>
       <initial_position>-1.45</initial_position>
       <p_gain>10</p_gain>
+      <d_gain>1.0</d_gain>
     </plugin>
     <plugin filename="gz-sim-joint-position-controller-system"
             name="gz::sim::systems::JointPositionController">
@@ -52,6 +55,7 @@
       <topic>/arm4/cmd_pos</topic>
       <initial_position>-1.32</initial_position>
       <p_gain>10</p_gain>
+      <d_gain>1.0</d_gain>
     </plugin>
     <plugin filename="gz-sim-joint-position-controller-system"
             name="gz::sim::systems::JointPositionController">
@@ -59,6 +63,7 @@
       <topic>/arm5/cmd_pos</topic>
       <initial_position>0.0</initial_position>
       <p_gain>10</p_gain>
+      <d_gain>1.0</d_gain>
     </plugin>
     <!-- The ROS gripper command router sends signed targets to these joints. -->
     <plugin filename="gz-sim-joint-position-controller-system"
@@ -897,6 +902,8 @@
           <velocity>20</velocity>
         </limit>
         <dynamics>
+          <!-- Dampen wheel contact oscillation during initial ground settling. -->
+          <damping>0.05</damping>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
@@ -921,7 +928,7 @@
         <geometry>
           <cylinder><radius>0.04</radius><length>0.02</length></cylinder>
         </geometry>
-        <surface><friction><ode><mu>10</mu><mu2>10</mu2></ode></friction></surface>
+        <surface><friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction></surface>
       </collision>
       <visual name='lwheel1_visual'>
         <pose>0 0 0 0 0 0</pose>
@@ -950,6 +957,8 @@
           <velocity>20</velocity>
         </limit>
         <dynamics>
+          <!-- Dampen wheel contact oscillation during initial ground settling. -->
+          <damping>0.05</damping>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
@@ -974,7 +983,7 @@
         <geometry>
           <cylinder><radius>0.04</radius><length>0.02</length></cylinder>
         </geometry>
-        <surface><friction><ode><mu>10</mu><mu2>10</mu2></ode></friction></surface>
+        <surface><friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction></surface>
       </collision>
       <visual name='lwheel2_visual'>
         <pose>0 0 0 0 0 0</pose>
@@ -1003,6 +1012,8 @@
           <velocity>20</velocity>
         </limit>
         <dynamics>
+          <!-- Dampen wheel contact oscillation during initial ground settling. -->
+          <damping>0.05</damping>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
@@ -1027,7 +1038,7 @@
         <geometry>
           <cylinder><radius>0.04</radius><length>0.02</length></cylinder>
         </geometry>
-        <surface><friction><ode><mu>10</mu><mu2>10</mu2></ode></friction></surface>
+        <surface><friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction></surface>
       </collision>
       <visual name='rwheel1_visual'>
         <pose>0 0 0 0 0 0</pose>
@@ -1056,6 +1067,8 @@
           <velocity>20</velocity>
         </limit>
         <dynamics>
+          <!-- Dampen wheel contact oscillation during initial ground settling. -->
+          <damping>0.05</damping>
           <spring_reference>0</spring_reference>
           <spring_stiffness>0</spring_stiffness>
         </dynamics>
@@ -1080,7 +1093,7 @@
         <geometry>
           <cylinder><radius>0.04</radius><length>0.02</length></cylinder>
         </geometry>
-        <surface><friction><ode><mu>10</mu><mu2>10</mu2></ode></friction></surface>
+        <surface><friction><ode><mu>1.0</mu><mu2>1.0</mu2></ode></friction></surface>
       </collision>
       <visual name='rwheel2_visual'>
         <pose>0 0 0 0 0 0</pose>

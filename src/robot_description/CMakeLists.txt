@@ -13,6 +13,7 @@ install(DIRECTORY
   DESTINATION share/${PROJECT_NAME})
 
 install(PROGRAMS
+  scripts/arm_test_gui.py
   scripts/gripper_command_router.py
   scripts/gz_pointcloud_to_optical.py
   scripts/imu_frame_relay.py

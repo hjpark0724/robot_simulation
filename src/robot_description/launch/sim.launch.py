@@ -2,9 +2,10 @@ from pathlib import Path
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, SetEnvironmentVariable, TimerAction
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, SetEnvironmentVariable, TimerAction
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import EnvironmentVariable
+from launch.substitutions import EnvironmentVariable, LaunchConfiguration
 from launch_ros.actions import Node
 
 
@@ -39,12 +40,20 @@ def generate_launch_description():
                     '-world', 'n1_imu_world',
                     '-file', str(model_file),
                     '-name', 'n1_robot',
-                    '-z', '0.10',
+                    # base_footprint is ground-referenced: wheel centers are
+                    # already at z=0.04 m with 0.04 m radii.  Spawning at
+                    # z=0.10 drops the robot onto its wheels and can tip it.
+                    # Keep a small initial clearance so the contact solver can
+                    # establish the four wheel contacts without penetration.
+                    '-z', '0.002',
                 ],
                 output='screen'),
         ])
 
     return LaunchDescription([
+        DeclareLaunchArgument(
+            'start_arm_gui', default_value='true',
+            description='Start the Qt arm/gripper test GUI.'),
         # model://robot_description/... URIs in the converted SDF resolve here.
         SetEnvironmentVariable(
             name='GZ_SIM_RESOURCE_PATH',
@@ -78,6 +87,8 @@ def generate_launch_description():
                 '/gripper/rlink1/cmd_pos@std_msgs/msg/Float64]gz.msgs.Double',
                 '/gripper/rlink2/cmd_pos@std_msgs/msg/Float64]gz.msgs.Double',
                 '/gripper/rlink3/cmd_pos@std_msgs/msg/Float64]gz.msgs.Double',
+                '/gripper/attach_target@std_msgs/msg/Empty]gz.msgs.Empty',
+                '/gripper/detach_target@std_msgs/msg/Empty]gz.msgs.Empty',
             ],
             remappings=[
                 (joint_state_gz_topic, '/joint_states'),
@@ -113,6 +124,11 @@ def generate_launch_description():
             package='robot_description',
             executable='gz_pointcloud_to_optical.py',
             parameters=[{'use_sim_time': True}],
+            output='screen'),
+        Node(
+            package='robot_description',
+            executable='arm_test_gui.py',
+            condition=IfCondition(LaunchConfiguration('start_arm_gui')),
             output='screen'),
         Node(
             package='rviz2',

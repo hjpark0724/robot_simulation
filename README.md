@@ -24,6 +24,29 @@ Visualize [`N1-Robot.urdf`](src/robot_description/urdf/N1-Robot.urdf) in RViz:
 ros2 launch robot_description display.launch.py
 ```
 
+### Dual Piper arms with configurable end effectors
+
+By default, RViz opens two Piper arms with a parallel gripper on the left and
+a REVO2 hand on the right:
+
+```zsh
+source /opt/ros/jazzy/setup.zsh
+colcon build --packages-select piper_arm_description --symlink-install
+source install/setup.zsh
+ros2 launch piper_arm_description display.launch.py
+```
+
+Set either arm independently to `none`, `gripper`, `revo2`, or `pika`:
+
+```zsh
+ros2 launch piper_arm_description display.launch.py \
+  left_end_effector:=pika right_end_effector:=gripper arm_spacing:=0.80
+```
+
+REVO2 uses the left-hand model on the left arm and the right-hand model on the
+right arm. The two arm bases are 0.60 m apart on Y by default; change it with
+`arm_spacing:=<metres>`.
+
 ## Gazebo simulation
 
 `sim.launch.py` starts Gazebo, spawns the robot, bridges all topics, and opens
@@ -71,6 +94,29 @@ ros2 topic pub --once /arm1/cmd_pos std_msgs/msg/Float64 "{data: 0.3}"
 Topics: `/arm1/cmd_pos` … `/arm5/cmd_pos`, limits `±1.5708 rad` (±90°) on each
 joint. The home pose on spawn is `arm2=1.20`, `arm3=-1.45`, `arm4=-1.32`,
 `arm1=arm5=0.0`.
+
+### Qt arm test panel
+
+The PyQt control panel publishes the same arm and gripper command topics as
+the terminal commands. Start it in a separate terminal after the simulator is
+running:
+
+```zsh
+ros2 run robot_description arm_test_gui.py
+```
+
+It starts by default with Gazebo and RViz:
+
+```zsh
+ros2 launch robot_description sim.launch.py
+```
+
+For a headless simulation without the panel, pass `start_arm_gui:=false`.
+
+The panel has radian sliders for `arm1` through `arm5`, Home/Open/Close
+buttons, and Attach/Detach buttons for `target_cylinder`. Attach should only
+be used after the target has been lifted clear of the ground, otherwise the
+fixed joint can apply a large torque to the mobile base.
 
 ### Commanding the gripper
 
