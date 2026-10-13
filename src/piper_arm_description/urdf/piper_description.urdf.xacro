@@ -18,7 +18,7 @@
     xacro piper_description.urdf.xacro left_end_effector:=gripper right_end_effector:=pika
     xacro piper_description.urdf.xacro with_camera_stand:=true with_camera:=true
 -->
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="agx_arm">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="piper">
 
   <!-- ================================================================
        파라미터 선언
