@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="piper">
   <!-- The included description receives left/right_end_effector:=gripper from
-       the launch file.  Enable the D435 on the left gripper for this demo. -->
-  <xacro:arg name="with_camera_stand" default="true"/>
-  <xacro:arg name="with_camera" default="true"/>
+       the launch file. Enable a D435 on each gripper for this demo. -->
+  <xacro:arg name="left_with_camera" default="true"/>
+  <xacro:arg name="right_with_camera" default="true"/>
   <xacro:include filename="$(find piper_arm_description)/urdf/piper_description.urdf.xacro"/>
 
   <xacro:macro name="mock_joint" params="name initial:=0.0">

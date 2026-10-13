@@ -22,8 +22,8 @@ def generate_launch_description():
             mappings={
                 'left_end_effector': 'gripper',
                 'right_end_effector': 'gripper',
-                'with_camera_stand': 'true',
-                'with_camera': 'true',
+                'left_with_camera': 'true',
+                'right_with_camera': 'true',
             },
         )
         .robot_description_semantic(file_path='config/piper_dual_gripper.srdf')
