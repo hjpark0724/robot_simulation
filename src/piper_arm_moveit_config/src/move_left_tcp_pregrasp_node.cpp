@@ -28,9 +28,9 @@ int main(int argc, char** argv)
 {
   rclcpp::init(argc, argv);
   auto node = std::make_shared<rclcpp::Node>("move_left_tcp_pregrasp");
-  const double object_size_x = node->declare_parameter<double>("object_size_x_m", 0.10);
-  const double object_size_y = node->declare_parameter<double>("object_size_y_m", 0.10);
-  const double object_size_z = node->declare_parameter<double>("object_size_z_m", 0.10);
+  const double object_size_x = node->declare_parameter<double>("object_size_x_m", 0.05);
+  const double object_size_y = node->declare_parameter<double>("object_size_y_m", 0.05);
+  const double object_size_z = node->declare_parameter<double>("object_size_z_m", 0.05);
   const double gap = node->declare_parameter<double>("gap_m", 0.03);
   const double tcp_offset_z = node->declare_parameter<double>("tcp_offset_z_m", 0.16);
   if (object_size_x <= 0.0 || object_size_y <= 0.0 || object_size_z <= 0.0 ||

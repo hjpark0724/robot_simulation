@@ -68,6 +68,10 @@
   </ros2_control>
 
   <xacro:if value="$(arg use_gazebo)">
+    <gazebo reference="left_gripper_link1"><mu1>2.0</mu1><mu2>2.0</mu2></gazebo>
+    <gazebo reference="left_gripper_link2"><mu1>2.0</mu1><mu2>2.0</mu2></gazebo>
+    <gazebo reference="right_gripper_link1"><mu1>2.0</mu1><mu2>2.0</mu2></gazebo>
+    <gazebo reference="right_gripper_link2"><mu1>2.0</mu1><mu2>2.0</mu2></gazebo>
     <gazebo>
       <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
         <parameters>$(find piper_arm_moveit_config)/config/ros2_controllers.yaml</parameters>

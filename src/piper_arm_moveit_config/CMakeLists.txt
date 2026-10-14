@@ -36,7 +36,13 @@ ament_target_dependencies(move_left_tcp_pregrasp_node
   tf2 tf2_geometry_msgs tf2_ros)
 target_compile_features(move_left_tcp_pregrasp_node PRIVATE cxx_std_17)
 
-install(TARGETS color_object_pose_node red_box_camera_view_node move_left_tcp_pregrasp_node
+add_executable(pick_red_box_node src/pick_red_box_node.cpp)
+ament_target_dependencies(pick_red_box_node
+  geometry_msgs moveit_msgs moveit_ros_planning_interface rclcpp shape_msgs
+  tf2 tf2_geometry_msgs)
+target_compile_features(pick_red_box_node PRIVATE cxx_std_17)
+
+install(TARGETS color_object_pose_node red_box_camera_view_node move_left_tcp_pregrasp_node pick_red_box_node
   DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY config launch model world

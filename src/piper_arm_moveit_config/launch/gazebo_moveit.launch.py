@@ -4,10 +4,11 @@ from pathlib import Path
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, RegisterEventHandler, SetEnvironmentVariable
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, RegisterEventHandler, SetEnvironmentVariable
 from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.substitutions import EnvironmentVariable
+from launch.substitutions import EnvironmentVariable, LaunchConfiguration, PythonExpression
+from launch.conditions import UnlessCondition
 from launch_ros.actions import Node
 from moveit_configs_utils import MoveItConfigsBuilder
 
@@ -41,7 +42,12 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             str(Path(get_package_share_directory('ros_gz_sim')) / 'launch' / 'gz_sim.launch.py')
         ),
-        launch_arguments={'gz_args': f'-r {world}', 'on_exit_shutdown': 'true'}.items(),
+        launch_arguments={
+            'gz_args': [PythonExpression([
+                "'-s -r' if '", LaunchConfiguration('headless'), "' == 'true' else '-r'",
+            ]), ' ', str(world)],
+            'on_exit_shutdown': 'true',
+        }.items(),
     )
     spawn_robot = Node(
         package='ros_gz_sim', executable='create',
@@ -67,6 +73,7 @@ def generate_launch_description():
     ]
 
     return LaunchDescription([
+        DeclareLaunchArgument('headless', default_value='false'),
         # Gazebo resolves package:// mesh paths relative to this directory.
         SetEnvironmentVariable(
             name='GZ_SIM_RESOURCE_PATH',
@@ -104,7 +111,9 @@ def generate_launch_description():
                 'model_path': str(package_share / 'model' / 'red_target_yolov8s.onnx'),
                 'target_class_id': 0,
                 'confidence_threshold': 0.5,
-                'object_size_x_m': 0.10,
+                'object_size_x_m': 0.05,
+                'object_size_y_m': 0.05,
+                'object_size_z_m': 0.05,
                 'object_yaw_rad': 0.0,
             }],
             output='screen',
@@ -123,6 +132,7 @@ def generate_launch_description():
             package='rviz2', executable='rviz2',
             arguments=['-d', str(rviz_config)],
             parameters=[moveit_config.to_dict(), {'use_sim_time': True}],
+            condition=UnlessCondition(LaunchConfiguration('headless')),
             output='screen',
         ),
     ])
