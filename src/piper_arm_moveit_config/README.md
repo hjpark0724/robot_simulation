@@ -10,6 +10,18 @@ source install/setup.zsh
 ros2 launch piper_arm_moveit_config demo.launch.py
 ```
 
+Gazebo Sim에서 MoveIt 경로 실행을 시험하려면 `ros-jazzy-gz-ros2-control`,
+`ros-jazzy-ros-gz-sim`, `ros-jazzy-ros-gz-bridge`를 설치한 뒤 실행합니다.
+
+```bash
+ros2 launch piper_arm_moveit_config gazebo_moveit.launch.py
+```
+
+이 launch는 Gazebo Sim의 빈 월드에 같은 듀얼 Piper 모델을 생성하고,
+`gz_ros2_control`의 컨트롤러를 통해 MoveIt 실행 명령을 시뮬레이터 관절에 전달합니다.
+`/clock`과 모든 ROS 노드는 시뮬레이션 시간을 사용합니다. RViz에서 경로를 계획한 뒤
+`Execute`를 누르면 Gazebo의 로봇도 움직여야 합니다.
+
 데모는 `robot_state_publisher`, 모의 `ros2_control` 하드웨어, 관절 상태 브로드캐스터,
 궤적 컨트롤러, `move_group`, RViz를 실행합니다. RViz에서 계획한 경로는
 `mock_components/GenericSystem`에서 실행되며, 시뮬레이터나 실제 로봇에는

@@ -4,18 +4,35 @@
        the launch file. Enable a D435 on each gripper for this demo. -->
   <xacro:arg name="left_with_camera" default="true"/>
   <xacro:arg name="right_with_camera" default="true"/>
+  <xacro:arg name="use_gazebo" default="false"/>
   <xacro:include filename="$(find piper_arm_description)/urdf/piper_description.urdf.xacro"/>
+  <xacro:property name="gazebo_initial_positions"
+                  value="${xacro.load_yaml('$(find piper_arm_moveit_config)/config/gazebo_initial_positions.yaml')['initial_positions']}"/>
 
   <xacro:macro name="mock_joint" params="name initial:=0.0">
     <joint name="${name}">
       <command_interface name="position"/>
-      <state_interface name="position"><param name="initial_value">${initial}</param></state_interface>
+      <state_interface name="position">
+        <xacro:if value="$(arg use_gazebo)">
+          <param name="initial_value">${gazebo_initial_positions.get(name, initial)}</param>
+        </xacro:if>
+        <xacro:unless value="$(arg use_gazebo)">
+          <param name="initial_value">${initial}</param>
+        </xacro:unless>
+      </state_interface>
       <state_interface name="velocity"><param name="initial_value">0.0</param></state_interface>
     </joint>
   </xacro:macro>
 
   <ros2_control name="PiperDualArmMockSystem" type="system">
-    <hardware><plugin>mock_components/GenericSystem</plugin></hardware>
+    <hardware>
+      <xacro:if value="$(arg use_gazebo)">
+        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+      </xacro:if>
+      <xacro:unless value="$(arg use_gazebo)">
+        <plugin>mock_components/GenericSystem</plugin>
+      </xacro:unless>
+    </hardware>
     <xacro:mock_joint name="left_arm_joint1"/><xacro:mock_joint name="left_arm_joint2"/>
     <xacro:mock_joint name="left_arm_joint3"/><xacro:mock_joint name="left_arm_joint4"/>
     <xacro:mock_joint name="left_arm_joint5"/><xacro:mock_joint name="left_arm_joint6"/>
@@ -25,4 +42,12 @@
     <xacro:mock_joint name="left_gripper_joint1"/><xacro:mock_joint name="left_gripper_joint2"/>
     <xacro:mock_joint name="right_gripper_joint1"/><xacro:mock_joint name="right_gripper_joint2"/>
   </ros2_control>
+
+  <xacro:if value="$(arg use_gazebo)">
+    <gazebo>
+      <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+        <parameters>$(find piper_arm_moveit_config)/config/ros2_controllers.yaml</parameters>
+      </plugin>
+    </gazebo>
+  </xacro:if>
 </robot>
