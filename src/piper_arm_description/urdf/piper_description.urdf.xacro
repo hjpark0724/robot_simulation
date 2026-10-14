@@ -135,7 +135,7 @@
   <!-- xacro:if가 문자열 인자를 boolean으로 파싱합니다. -->
   <xacro:if value="$(arg left_with_camera)">
     <xacro:if value="${left_ee == 'gripper'}">
-      <xacro:gripper_camera prefix="" parent="left_gripper_base"/>
+      <xacro:gripper_camera prefix="left_" parent="left_gripper_base"/>
     </xacro:if>
   </xacro:if>
   <xacro:if value="$(arg right_with_camera)">

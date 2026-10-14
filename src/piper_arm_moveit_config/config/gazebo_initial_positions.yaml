@@ -1,17 +1,17 @@
 initial_positions:
   left_arm_joint1: 0.0
-  left_arm_joint2: 1.2
-  left_arm_joint3: -1.2
+  left_arm_joint2: 0.001
+  left_arm_joint3: -0.001
   left_arm_joint4: 0.0
-  left_arm_joint5: 0.0
+  left_arm_joint5: 0.2617993877991494
   left_arm_joint6: 0.0
   left_gripper_joint1: 0.02
   left_gripper_joint2: -0.02
   right_arm_joint1: 0.0
-  right_arm_joint2: 1.2
-  right_arm_joint3: -1.2
+  right_arm_joint2: 0.001
+  right_arm_joint3: -0.001
   right_arm_joint4: 0.0
-  right_arm_joint5: 0.0
+  right_arm_joint5: 0.2617993877991494
   right_arm_joint6: 0.0
   right_gripper_joint1: 0.02
   right_gripper_joint2: -0.02

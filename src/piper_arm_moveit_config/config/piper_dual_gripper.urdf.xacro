@@ -24,6 +24,30 @@
     </joint>
   </xacro:macro>
 
+  <xacro:macro name="gazebo_rgbd_camera" params="prefix">
+    <gazebo reference="${prefix}camera_link">
+      <sensor name="${prefix}rgbd" type="rgbd_camera">
+        <pose>0 0 0 0 0 0</pose>
+        <gz_frame_id>${prefix}camera_link</gz_frame_id>
+        <always_on>true</always_on>
+        <update_rate>15</update_rate>
+        <topic>/${prefix}camera/rgbd</topic>
+        <camera>
+          <horizontal_fov>1.047</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>5.0</far>
+          </clip>
+        </camera>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
+
   <ros2_control name="PiperDualArmMockSystem" type="system">
     <hardware>
       <xacro:if value="$(arg use_gazebo)">
@@ -49,5 +73,15 @@
         <parameters>$(find piper_arm_moveit_config)/config/ros2_controllers.yaml</parameters>
       </plugin>
     </gazebo>
+    <xacro:if value="$(arg left_with_camera)">
+      <xacro:if value="${left_ee == 'gripper'}">
+        <xacro:gazebo_rgbd_camera prefix="left_"/>
+      </xacro:if>
+    </xacro:if>
+    <xacro:if value="$(arg right_with_camera)">
+      <xacro:if value="${right_ee == 'gripper'}">
+        <xacro:gazebo_rgbd_camera prefix="right_"/>
+      </xacro:if>
+    </xacro:if>
   </xacro:if>
 </robot>

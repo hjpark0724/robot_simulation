@@ -4,7 +4,7 @@
 
 ## 월드 SDF와 로봇 URDF
 
-`gz_args: '-r empty.sdf'`의 `empty.sdf`는 **월드** 파일입니다. 로봇은 [`config/piper_dual_gripper.urdf.xacro`](config/piper_dual_gripper.urdf.xacro)를 `use_gazebo=true`로 확장한 URDF를 `/robot_description`에서 읽어 생성합니다. Gazebo의 SDFormat 라이브러리가 URDF를 내부적으로 SDF 모델로 변환하므로 별도의 로봇 SDF 파일은 필요하지 않습니다. [Gazebo의 URDF 생성 안내](https://gazebosim.org/docs/latest/spawn_urdf/)도 이 방식을 설명합니다.
+`gz_args`는 [`world/piper.world`](world/piper.world)를 엽니다. 이 월드는 카메라 렌더링에 필요한 Gazebo Sensors 시스템을 로드합니다. 로봇은 [`config/piper_dual_gripper.urdf.xacro`](config/piper_dual_gripper.urdf.xacro)를 `use_gazebo=true`로 확장한 URDF를 `/robot_description`에서 읽어 생성합니다. 이 Xacro에는 양쪽 D435의 RGB-D 센서가 정의되어 있습니다. Gazebo의 SDFormat 라이브러리가 URDF를 내부적으로 SDF 모델로 변환하므로 별도의 로봇 SDF 파일은 필요하지 않습니다. [Gazebo의 URDF 생성 안내](https://gazebosim.org/docs/latest/spawn_urdf/)도 이 방식을 설명합니다.
 
 실행 로그에서 로봇 생성 성공, `gz_ros2_control` 플러그인 로드, 16개 관절의 하드웨어 인터페이스 등록을 확인했습니다. 하드웨어 컴포넌트 이름은 현재 Xacro에 적힌 `PiperDualArmMockSystem`이지만, `use_gazebo=true`에서 로드되는 **구현체**는 `gz_ros2_control/GazeboSimSystem`입니다.
 
@@ -12,7 +12,7 @@
 
 ```mermaid
 flowchart LR
-    GZ["Gazebo Sim<br/>empty.sdf 월드와 Piper 모델"]
+    GZ["Gazebo Sim<br/>piper.world 월드와 Piper 모델"]
     BR["ros_gz_bridge<br/>parameter_bridge"]
     RSP["robot_state_publisher"]
     CREATE["ros_gz_sim create<br/>생성 후 종료"]
@@ -72,7 +72,7 @@ RViz → `move_group` → 컨트롤러 액션은 설정과 실행 그래프에�
 
 컨트롤러의 관절과 인터페이스는 [`config/ros2_controllers.yaml`](config/ros2_controllers.yaml), MoveIt의 액션 매핑은 [`config/moveit_controllers.yaml`](config/moveit_controllers.yaml)에 정의되어 있습니다.
 
-양쪽 그리퍼에는 D435 **모델**이 포함되지만 이 launch의 브리지는 `/clock`만 연결합니다. 카메라 영상용 Gazebo 센서나 ROS 영상 브리지는 이 구성에 없습니다.
+양쪽 그리퍼에는 D435 모델과 Gazebo RGB-D 센서가 정의되어 있습니다. 현재 launch는 `/clock`과 양쪽 카메라의 RGB, 깊이 영상, 카메라 정보, 포인트클라우드를 브리지합니다. 왼쪽 카메라 영상에서 월드의 빨간 시험 상자를 확인했습니다. [YOLOv8 물체 인식 노드](../../docs/piper_tcp_pregrasp.md#gazebo-영상에서-물체-pose-받기)는 별도로 실행하며, 빨간 시험 상자를 검출하려면 그 물체로 학습한 ONNX 모델이 필요합니다.
 
 ## 동작 시험 결과
 

@@ -16,6 +16,7 @@ def generate_launch_description():
     package_share = Path(get_package_share_directory('piper_arm_moveit_config'))
     description = package_share / 'config' / 'piper_dual_gripper.urdf.xacro'
     rviz_config = package_share / 'config' / 'moveit.rviz'
+    world = package_share / 'world' / 'piper.world'
     moveit_config = (
         MoveItConfigsBuilder('piper', package_name='piper_arm_moveit_config')
         .robot_description(
@@ -40,11 +41,11 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             str(Path(get_package_share_directory('ros_gz_sim')) / 'launch' / 'gz_sim.launch.py')
         ),
-        launch_arguments={'gz_args': '-r empty.sdf', 'on_exit_shutdown': 'true'}.items(),
+        launch_arguments={'gz_args': f'-r {world}', 'on_exit_shutdown': 'true'}.items(),
     )
     spawn_robot = Node(
         package='ros_gz_sim', executable='create',
-        arguments=['-world', 'empty', '-topic', '/robot_description', '-name', 'piper'],
+        arguments=['-world', 'piper', '-topic', '/robot_description', '-name', 'piper'],
         output='screen',
     )
     controller_manager = '/controller_manager'
@@ -78,12 +79,34 @@ def generate_launch_description():
         gazebo,
         Node(
             package='ros_gz_bridge', executable='parameter_bridge',
-            arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
+            arguments=[
+                '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock',
+                '/left_camera/rgbd/image@sensor_msgs/msg/Image[gz.msgs.Image',
+                '/left_camera/rgbd/depth_image@sensor_msgs/msg/Image[gz.msgs.Image',
+                '/left_camera/rgbd/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
+                '/left_camera/rgbd/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
+                '/right_camera/rgbd/image@sensor_msgs/msg/Image[gz.msgs.Image',
+                '/right_camera/rgbd/depth_image@sensor_msgs/msg/Image[gz.msgs.Image',
+                '/right_camera/rgbd/camera_info@sensor_msgs/msg/CameraInfo[gz.msgs.CameraInfo',
+                '/right_camera/rgbd/points@sensor_msgs/msg/PointCloud2[gz.msgs.PointCloudPacked',
+            ],
             output='screen',
         ),
         Node(
             package='robot_state_publisher', executable='robot_state_publisher',
             parameters=[moveit_config.robot_description, {'use_sim_time': True}],
+            output='screen',
+        ),
+        Node(
+            package='piper_arm_moveit_config', executable='color_object_pose_node',
+            parameters=[{
+                'use_sim_time': True,
+                'model_path': str(package_share / 'model' / 'red_target_yolov8s.onnx'),
+                'target_class_id': 0,
+                'confidence_threshold': 0.5,
+                'object_size_x_m': 0.10,
+                'object_yaw_rad': 0.0,
+            }],
             output='screen',
         ),
         spawn_robot,

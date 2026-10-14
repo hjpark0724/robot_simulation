@@ -17,8 +17,9 @@ Gazebo Sim에서 MoveIt 경로 실행을 시험하려면 `ros-jazzy-gz-ros2-cont
 ros2 launch piper_arm_moveit_config gazebo_moveit.launch.py
 ```
 
-이 launch는 Gazebo Sim의 빈 월드에 같은 듀얼 Piper 모델을 생성하고,
+이 launch는 Gazebo Sim의 월드에 듀얼 Piper 모델을 생성하고,
 `gz_ros2_control`의 컨트롤러를 통해 MoveIt 실행 명령을 시뮬레이터 관절에 전달합니다.
+월드에는 왼쪽 카메라의 인식 시험을 위한 빨간색 정적 상자가 있습니다.
 `/clock`과 모든 ROS 노드는 시뮬레이션 시간을 사용합니다. RViz에서 경로를 계획한 뒤
 `Execute`를 누르면 Gazebo의 로봇도 움직여야 합니다.
 
@@ -80,3 +81,5 @@ MoveIt은 보통 `/<controller>/joint_trajectory` 토픽에 직접 발행하는 
 RViz가 종료되면 RViz가 생성한 노드와 통신 연결은 그래프에서 사라집니다.
 
 MoveIt의 계획 장면과 인식 결과 연결 방식은 [Planning Scene Monitor 해설](PLANNING_SCENE_MONITOR.ko.md)을 참고하세요.
+Gazebo RGB와 포인트클라우드에서 YOLOv8 검출 물체의 `PoseStamped`를 만드는 노드는
+[TCP 접근 예제](../../docs/piper_tcp_pregrasp.md#gazebo-영상에서-물체-pose-받기)에 설명되어 있습니다.
